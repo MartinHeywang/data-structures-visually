@@ -1,0 +1,90 @@
+@use "../color.scss" as clr;
+@use "sass:map";
+
+#linked-list-page {
+
+    .text {
+        p {
+            margin-top: 0;
+            font-size: clamp(1rem, 6vw, 1.4rem);
+        }
+    }
+
+    $item-gap: 7rem;
+    $line-width: 1px;
+    $pointer-border-width: 8px;
+
+    .graphical-representation {
+        min-width: max-content;
+        padding: 2em 0;
+        padding-right: 5rem;
+
+        display: flex;
+        gap: $item-gap;
+    }
+
+    .item {
+        display: grid;
+        place-items: center;
+
+        position: relative;
+
+        width: 8.5em;
+        height: 8.5em;
+
+        .value {
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        --main-color: white;
+
+        &:not(&-null) {
+            background-color: rgba(white, 10%);
+            border: $line-width solid var(--main-color);
+            border-right-width: $pointer-border-width;
+        }
+
+        // the line between two elements
+        &:not(&-null)::after {
+            content: "";
+
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%); // even though for one pixel it does not change anything
+
+            height: $line-width;
+
+            // the line starts on the right side of the content box (??)
+            // so we have to add the width of the border as well.
+            min-width: calc($item-gap + $pointer-border-width);
+
+            background-color: var(--main-color);
+        }
+
+        // the triangle at complete the arrow
+        &:not(&-null)::before {
+            content: "";
+
+            position: absolute;
+            left: calc(100% + $item-gap + $pointer-border-width - 10px);
+            top: 50%;
+            transform: translateY(-50%);
+
+            // border trick to create the triangle
+            border: 10px dashed transparent;
+            border-right: none;
+            border-left-color: var(--main-color);
+        }
+
+        & > .under-note {
+            position: absolute;
+            top: 100%;
+            width: 100%;
+
+            margin-top: 0.5em;
+            text-align: center;
+        }
+    }
+}

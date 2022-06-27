@@ -1,0 +1,82 @@
+/* HEADER ====================================================== */
+
+#root {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    padding: 6em 1em;
+
+    h1 {
+        margin-top: 0;
+        margin-bottom: 0.3em;
+    }
+
+    p {
+        margin-top: 0;
+    }
+}
+
+/* DATA STRUCTURES GRID ====================================================== */
+
+.data-structures-grid {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(21em, auto));
+    grid-auto-rows: 10em;
+    gap: 1em;
+    padding: 1em;
+
+    width: min(100vw, 100em);
+    margin: 0 auto;
+}
+
+.data-structure {
+    display: grid;
+    place-items: center;
+
+    font: inherit;
+    text-decoration: none;
+    color: #0a0a0a;
+
+    padding: 1.5em 3em;
+    border: 0;
+    border-radius: .5em;
+
+    outline-offset: 0;
+    transform: scale(100%);
+
+    overflow: hidden;
+    position: relative;
+}
+
+.data-structure::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: -2em;
+    right: -2em;
+
+    width: 30em;
+    height: 20em;
+
+    background: radial-gradient(rgba(white, 20%), rgba(white, 0%));
+}
+
+.data-structure:hover {
+    transform: scale(102%);
+    box-shadow: 0 0 .5em rgba(black, 50%);
+    transition: transform 150ms ease-in-out;
+    z-index: 1;
+
+    cursor: pointer;
+}
+
+.data-structure:focus-visible {
+    outline: 2px solid #0a0a0a;
+    outline-offset: -1em;
+}
