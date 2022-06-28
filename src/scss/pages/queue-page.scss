@@ -1,6 +1,7 @@
 @use "../color.scss" as clr;
 
 #queue-page {
+
     .graphical-representation {
         display: flex;
     }
@@ -32,14 +33,14 @@
             }
         }
 
-        --pad: 1em;
+        $pad: 1em;
 
         &.first-in {
-            padding-right: var(--pad)
+            padding-right: $pad;
         }
 
         &.first-out {
-            padding-left: var(--pad);
+            padding-left: $pad;
         }
     }
 

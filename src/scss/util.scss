@@ -1,9 +1,29 @@
 .container {
-    width: min(80%, 600px);
-    margin: 0 auto;
+
+    $max-width: var(--max-page-width, 600px);
+    $pref-margin: calc((100vw - 80vw) / 2); // 10vw in fact
+    $min-margin: calc((100vw - var(--max-page-width, 600px)) / 2);
+
+    $page-margin: max($pref-margin, $min-margin);
+
+    --page-margin: #{$page-margin};
+
+    // width: 100%;
+    margin: 0 $page-margin;
 }
 
 .text-center {
     text-align: center;
     margin-inline: auto;
+}
+
+@function get-page-margin() {
+
+    $max-width: var(--max-page-width, 600px);
+    $pref-margin: calc((100vw - 80vw) / 2); // 10vw in fact
+    $min-margin: calc((100vw - var(--max-page-width, 600px)) / 2);
+
+    $page-margin: max($pref-margin, $min-margin);
+
+    @return #{$page-margin};
 }

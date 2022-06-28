@@ -3,21 +3,13 @@
 
 #linked-list-page {
 
-    .text {
-        p {
-            margin-top: 0;
-            font-size: clamp(1rem, 6vw, 1.4rem);
-        }
-    }
-
     $item-gap: 7rem;
     $line-width: 1px;
     $pointer-border-width: 8px;
 
     .graphical-representation {
         min-width: max-content;
-        padding: 2em 0;
-        padding-right: 5rem;
+        padding-block: 2em;
 
         display: flex;
         gap: $item-gap;

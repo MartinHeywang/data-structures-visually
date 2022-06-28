@@ -1,3 +1,5 @@
+@use "../util.scss" as util;
+
 /* the body of each data-structure pages */
 body.data-structure-page {
     display: flex;
@@ -6,14 +8,14 @@ body.data-structure-page {
 
     padding: 4rem 0;
 
-    .container {
-        width: min(80%, 900px);
-    }
+    overflow-x: hidden;
+
+    --max-page-width: 900px;
 
     h1 {
         display: inline-block;
-        padding: .2em .5em;
-        margin-top: 0; 
+        padding: 0.2em 0.5em;
+        margin-top: 0;
 
         font-size: clamp(1.5rem, 10vw, 3rem);
         background-color: rgba(black, 30%);
@@ -22,7 +24,7 @@ body.data-structure-page {
 
 .graphical-representation-box {
     overflow-x: auto;
-    // isolation: isolate;
+    isolation: isolate;
     position: relative;
     flex-grow: 1;
 
@@ -30,5 +32,11 @@ body.data-structure-page {
     flex-direction: column;
     justify-content: center;
 
-    padding: 2rem 0;
+    padding-block: 2rem;
+    padding-left: util.get-page-margin();
+
+    .graphical-representation {
+        padding-right: util.get-page-margin();
+        width: max-content;
+    }
 }
