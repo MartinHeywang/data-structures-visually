@@ -1,0 +1,107 @@
+@use "../color.scss" as clr;
+
+#stack-page {
+
+    .graphical-representation {
+        display: flex;
+    }
+
+    .filo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        min-width: 10em;
+
+        .arrow {
+            height: 1px;
+            background-color: white;
+
+            position: relative;
+
+            &::after {
+                content: "";
+
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+
+                border: 10px solid transparent;
+                border-right: none;
+                border-left-color: white;
+            }
+        }
+
+        $pad: 1em;
+
+        & .first-in {
+            padding-right: $pad;
+        }
+
+        & .last-out {
+            text-align: right;
+            padding-left: $pad;
+
+            & .arrow::after {
+                right: unset;
+                left: 0;
+
+                border: 10px solid transparent;
+                border-left: none;
+                border-right-color: white;
+            }
+        }
+    }
+
+    .stack {
+        display: grid;
+        place-items: center right;
+
+        position: relative;
+
+        border: 3px solid white;
+        padding: 1em;
+        margin: 1.5em;
+
+        .door {
+            --w: 1em;
+            --h: 9em;
+
+            position: absolute;
+            left: calc(var(--w) * -1);
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: var(--w);
+            height: var(--h);
+            border-top: 3px solid white;
+            border-bottom: 3px solid white;
+            background-color: var(--bgc, blue);
+        }
+    }
+
+    .items {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: end;
+
+        gap: 1em;
+    }
+
+    .item {
+        display: grid;
+        place-items: center;
+
+        border: 1px solid white;
+
+        width: 8.5em;
+        height: 8.5em;
+        background-color: rgba(white, 10%);
+
+        .value {
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+    }
+}
