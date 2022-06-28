@@ -1,0 +1,69 @@
+#hash-map-page {
+
+    .graphical-representation {
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+    }
+
+    .hash-map {
+        display: grid;
+        grid-auto-rows: 3em;
+
+        border: 2px solid white;
+    }
+
+    .item {
+        display: grid;
+        grid-template-columns: 2fr 2fr 1fr;
+
+        padding: 1em;
+        
+        & + .item {
+            border-top: 1px solid white;
+        }
+    }
+
+    .key {
+        text-align: left;
+        padding-inline: 1em;
+
+        &::before, &::after {
+            content: "\"";
+        }
+    }
+
+    .value {
+        text-align: right;
+    }
+
+    .arrow {
+        position: relative;
+
+        &::before {
+            content: "";
+
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+
+            height: 1px;
+            width: 100%;
+            background-color: white;
+        }
+
+        &::after {
+            content: "";
+
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+
+            border: 10px solid transparent;
+            border-right: none;
+            border-left-color: white;
+        }
+    }
+}
