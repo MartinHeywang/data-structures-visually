@@ -31,13 +31,20 @@ $data-structures-hue: (
 }
 
 @each $key, $hue in $data-structures-hue {
+
+    $bgc: hsl($hue, 60%, 10%);
+    $c: hsl($hue, 60%, 50%);
+
     /* unable to write '##{key}' so this is the workaround */
     #{"#" + $key} {
         // background-color: hsl($hue, 50%, 40%);
-        background-color: hsl($hue, 60%, 50%);
+        background-color: $c;
     }
 
     #{"#" + $key + "-page"} {
-        background-color: hsl($hue, 60%, 10%);
+        --bgc: #{$bgc};
+        background-color: $bgc;
+
+        --color: #{$c};
     }
 }
