@@ -1,5 +1,4 @@
 .container {
-
     $max-width: var(--max-page-width, 600px);
     $pref-margin: calc((100vw - 80vw) / 2); // 10vw in fact
     $min-margin: calc((100vw - var(--max-page-width, 600px)) / 2);
@@ -18,7 +17,6 @@
 }
 
 @function get-page-margin() {
-
     $max-width: var(--max-page-width, 600px);
     $pref-margin: calc((100vw - 80vw) / 2); // 10vw in fact
     $min-margin: calc((100vw - var(--max-page-width, 600px)) / 2);
@@ -26,4 +24,14 @@
     $page-margin: max($pref-margin, $min-margin);
 
     @return #{$page-margin};
+}
+
+@function string-repeat($count, $str) {
+    $result: "";
+
+    @for $_ from 1 through $count {
+        $result: $result + $str;
+    }
+
+    @return $result;
 }

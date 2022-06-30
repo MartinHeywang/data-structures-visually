@@ -1,0 +1,193 @@
+@use "../util.scss" as util;
+@use "sass:math";
+
+#binary-search-tree-page {
+    // floors go from bottom to top (tree root -> max)
+    // nesting levels go from top to bottom (tree root -> 0)
+    $floor-count: 4;
+    $max-nesting: $floor-count;
+
+    $node-size: 5em;
+    $vertical-gap: 4em;
+    $base-horizontal-gap: 1em; // the gap between two items in the very bottom floor
+
+    @function floor-to-nesting($floor) {
+        @return $max-nesting - $floor - 1; // -1 because everything starts at 0
+    }
+
+    @function nesting-to-floor($nesting) {
+        @return $floor-count - $nesting - 1;
+    }
+
+    @function get-max-node-in-floor($floor) {
+        @return math.pow(2, floor-to-nesting($floor));
+    }
+
+    @function get-aside-gap($floor) {
+        @if $floor == 0 {
+            @return 0;
+        }
+        @return math.div(2 * $node-size + get-horizontal-gap($floor - 1) - $node-size, 2) +
+            get-aside-gap($floor - 1);
+    }
+
+    // calcs the length b/w two elements in the given floor
+    @function get-horizontal-gap($floor) {
+        @if $floor == 0 {
+            @return $base-horizontal-gap;
+        }
+
+        $nesting: floor-to-nesting($floor);
+
+        $tree-width: get-tree-width();
+        @debug "Tree width: #{$tree-width}";
+
+        $max-node-in-floor: get-max-node-in-floor($floor);
+        @debug "Max node: #{$max-node-in-floor}";
+
+        @if $max-node-in-floor == 1 {
+            // if there's only one node, it means we're at the root
+            // and it does not make sense to calc a gap b/w nodes
+            @return 0;
+        }
+
+        // the gap on the left and on the right of the nodes
+        @debug "(";
+        $aside-gap: get-aside-gap($floor);
+        @debug ")";
+        @debug "Aside gap: #{$aside-gap}";
+
+        $floor-width: $tree-width - $aside-gap * 2;
+        @debug "Floor width: #{$floor-width}";
+
+        $total-gap: $floor-width - $max-node-in-floor * $node-size;
+        @debug "Total gap: #{$total-gap}";
+
+        @return math.div($total-gap, $max-node-in-floor - 1);
+    }
+
+    @function get-node-side-offset($horizontal-gap) {
+        @return math.div($horizontal-gap - $node-size, 2);
+    }
+
+    @function get-branch-length($horizontal-gap) {
+        @return math.hypot($vertical-gap, $node-size + get-node-side-offset($horizontal-gap));
+    }
+
+    @function get-branch-rotation($branch-length) {
+        // we find the rotation using trigonometry
+        // the hypot is the branch length, the opposite side of the angle is the $vertical-gap.
+        // so we're using the sinus
+        // reminder : sin(angle) = opp / hypot
+
+        @return math.asin(math.div($vertical-gap, $branch-length));
+    }
+
+    @function get-tree-width() {
+        @return get-max-node-in-floor(0) * ($node-size + $base-horizontal-gap) - $base-horizontal-gap;
+    }
+
+    @function get-tree-height() {
+        @return $floor-count * ($node-size + $vertical-gap) - $vertical-gap;
+    }
+
+    // assigns the good nesting level to each node
+    @for $nesting from 1 to ($max-nesting + 1) {
+        #{util.string-repeat($nesting, ".node ")} {
+            $floor: $max-nesting - $nesting;
+            --floor: #{$floor};
+
+            @debug "----> Floor: #{$floor}";
+
+            $horizontal-gap: get-horizontal-gap($floor);
+            --horizontal-gap: #{$horizontal-gap};
+            @debug $horizontal-gap;
+
+            $side-offset: get-node-side-offset($horizontal-gap);
+            --side-offset: #{$side-offset};
+
+            $branch-length: get-branch-length($horizontal-gap);
+            --branch-length: #{$branch-length};
+
+            $branch-rotation: get-branch-rotation($branch-length);
+            --branch-rotation: #{$branch-rotation};
+        }
+    }
+
+    .graphical-representation {
+        // because nodes are positioned absolutely
+        // this element could have a size of zero, causing scrolling issues
+        // so we need to set it explicitly and adjust it with the markup
+
+        min-width: get-tree-width();
+        min-height: get-tree-height();
+
+        position: relative;
+    }
+
+    .tree-root {
+        position: absolute;
+        top: 0;
+        left: 0; // left = 0, but we're translating below
+
+        // moving the root of the tree actually moves the whole tree
+        $move-margin: math.div(get-tree-width() - $node-size, 2);
+        transform: translateX(#{$move-margin});
+    }
+
+
+    .node {
+        display: grid;
+        place-items: center;
+
+        width: $node-size;
+        height: $node-size;
+        border: 1px solid white;
+        background-color: rgba(white, 10%);
+
+        .value {
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+    }
+
+    .left,
+    .right {
+        position: absolute;
+        top: calc(100% + #{$vertical-gap});
+
+        &::after {
+            content: "";
+
+            position: absolute;
+            left: 50%;
+            top: -1px; // -1px so it starts on the border
+            z-index: -1;
+
+            height: 1px;
+            width: var(--branch-length);
+
+            transform-origin: left;
+
+            background-color: white;
+        }
+    }
+
+    .left {
+        // use the *right* property to push to the left of the parent node
+        right: calc(100% + var(--side-offset));
+
+        &::after {
+            transform: rotate(calc(var(--branch-rotation) * -1));
+        }
+    }
+
+    .right {
+        // use the *left* property to push to the right of the parent node
+        left: calc(100% + var(--side-offset));
+
+        &::after {
+            transform: rotate(calc(var(--branch-rotation) + 180deg));
+        }
+    }
+}
