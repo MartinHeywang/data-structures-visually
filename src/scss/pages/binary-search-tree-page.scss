@@ -40,10 +40,8 @@
         $nesting: floor-to-nesting($floor);
 
         $tree-width: get-tree-width();
-        @debug "Tree width: #{$tree-width}";
 
         $max-node-in-floor: get-max-node-in-floor($floor);
-        @debug "Max node: #{$max-node-in-floor}";
 
         @if $max-node-in-floor == 1 {
             // if there's only one node, it means we're at the root
@@ -52,16 +50,9 @@
         }
 
         // the gap on the left and on the right of the nodes
-        @debug "(";
         $aside-gap: get-aside-gap($floor);
-        @debug ")";
-        @debug "Aside gap: #{$aside-gap}";
-
         $floor-width: $tree-width - $aside-gap * 2;
-        @debug "Floor width: #{$floor-width}";
-
         $total-gap: $floor-width - $max-node-in-floor * $node-size;
-        @debug "Total gap: #{$total-gap}";
 
         @return math.div($total-gap, $max-node-in-floor - 1);
     }
@@ -97,11 +88,8 @@
             $floor: $max-nesting - $nesting;
             --floor: #{$floor};
 
-            @debug "----> Floor: #{$floor}";
-
             $horizontal-gap: get-horizontal-gap($floor);
             --horizontal-gap: #{$horizontal-gap};
-            @debug $horizontal-gap;
 
             $side-offset: get-node-side-offset($horizontal-gap);
             --side-offset: #{$side-offset};
