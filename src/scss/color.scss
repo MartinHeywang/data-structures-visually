@@ -19,32 +19,3 @@ $data-structures-hue: (
     "avl-tree": 80,
     "b-tree": 120,
 );
-
-@function get-data-structure-color($name, $saturation: 85%, $lightness: 50%) {
-    @debug $name;
-
-    $hue: map.get($data-structures-hue, $name);
-
-    @debug $hue;
-
-    @return hsl($hue, $saturation, $lightness);
-}
-
-@each $key, $hue in $data-structures-hue {
-
-    $bgc: hsl($hue, 60%, 10%);
-    $c: hsl($hue, 60%, 50%);
-
-    /* unable to write '##{key}' so this is the workaround */
-    #{"#" + $key} {
-        // background-color: hsl($hue, 50%, 40%);
-        background-color: $c;
-    }
-
-    #{"#" + $key + "-page"} {
-        --bgc: #{$bgc};
-        background-color: $bgc;
-
-        --color: #{$c};
-    }
-}

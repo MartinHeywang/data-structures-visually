@@ -1,82 +1,65 @@
-/* HEADER ====================================================== */
+@use "../color.scss" as clr;
 
-#root {
+body#home-page {
     min-height: 100vh;
 
-    display: flex;
-    flex-direction: column;
-}
+    background-color: var(--page-bgc, hsl(0, 0%, 10%));
+    transition: background-color 150ms ease-out;
 
-.header {
-    padding: 6em 1em;
-
-    h1 {
-        margin-top: 0;
-        margin-bottom: 0.3em;
+    .header {
+        padding: 4rem 0 2.5rem;
     }
 
-    p {
+    .page-title {
+        display: inline-block;
+        font-size: clamp(1.5rem, 10vw, 3rem);
+
+        background-color: rgba(black, 30%);
+        padding: 0.2em 0.5em;
         margin-top: 0;
+
+        text-transform: capitalize;
+
+        &::after {
+            content: var(--text);
+        }
     }
-}
 
-/* DATA STRUCTURES GRID ====================================================== */
+    .disclaimer {
+        font-style: italic;
+        font-size: 1.2rem;
+        max-width: 80ch;
+        color: #ccc;
+    }
 
-.data-structures-grid {
-    flex-grow: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(21em, auto));
-    grid-auto-rows: 10em;
-    gap: 1em;
-    padding: 1em;
+    .structures-list {
+        list-style: none;
+        padding-left: 0;
 
-    width: min(100vw, 100em);
-    margin: 0 auto;
-}
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em;
+        margin: 0;
 
-.data-structure {
-    display: grid;
-    place-items: center;
+        font-size: clamp(1rem, 6vw, 1.5rem);
 
-    font: inherit;
-    text-decoration: none;
-    color: #0a0a0a;
+        li {
+            display: inline-block;
 
-    padding: 1.5em 3em;
-    border: 0;
-    border-radius: .5em;
+            padding: 0.1em 0.3em;
+            background-color: rgba(black, 20%);
 
-    outline-offset: 0;
-    transform: scale(100%);
+            a {
+                color: inherit;
+                text-decoration: none;
 
-    overflow: hidden;
-    position: relative;
-}
+                &.disabled {
+                    pointer-events: none;
+                    user-select: none;
+                    filter: brightness(40%);
+                }
+            }
 
-.data-structure::after {
-    content: "";
-
-    position: absolute;
-
-    bottom: -2em;
-    right: -2em;
-
-    width: 30em;
-    height: 20em;
-
-    background: radial-gradient(rgba(white, 20%), rgba(white, 0%));
-}
-
-.data-structure:hover {
-    transform: scale(102%);
-    box-shadow: 0 0 .5em rgba(black, 50%);
-    transition: transform 150ms ease-in-out;
-    z-index: 1;
-
-    cursor: pointer;
-}
-
-.data-structure:focus-visible {
-    outline: 2px solid #0a0a0a;
-    outline-offset: -1em;
+        }
+    }
 }

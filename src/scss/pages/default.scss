@@ -1,4 +1,5 @@
 @use "../util.scss" as util;
+@use "../color.scss" as clr;
 
 /* the body of each data-structure pages */
 body.data-structure-page {
@@ -38,5 +39,18 @@ body.data-structure-page {
     .graphical-representation {
         padding-right: util.get-page-margin();
         width: max-content;
+    }
+}
+
+@each $key, $hue in clr.$data-structures-hue {
+
+    $bgc: hsl($hue, 60%, 10%);
+    $c: hsl($hue, 60%, 50%);
+
+    #{"##{$key}-page"} {
+        --bgc: #{$bgc};
+        background-color: $bgc;
+
+        --color: #{$c};
     }
 }
