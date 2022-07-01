@@ -1,7 +1,7 @@
 @use "../util.scss" as util;
 @use "sass:math";
 
-#binary-search-tree-page {
+#tree-page {
     // floors go from bottom to top (tree root -> max)
     // nesting levels go from top to bottom (tree root -> 0)
     $floor-count: 4;
