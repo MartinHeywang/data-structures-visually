@@ -1,0 +1,174 @@
+@use "sass:map";
+@use "sass:math";
+
+$nodes-position: (
+    abc: (
+        x: 0em, // can't just write 0
+        y: 0em, // it used to cause "incompatible units" error
+    ),
+    def: (
+        x: 5em,
+        y: 23em,
+    ),
+    ghi: (
+        x: 25em,
+        y: 0em,
+    ),
+    jkl: (
+        x: 25em,
+        y: 20em,
+    ),
+    mno: (
+        x: 50em,
+        y: 20em,
+    ),
+);
+
+$node-size: 5em;
+
+$sides: "top", "right", "bottom", "left";
+
+$generic-connector-pos: (
+    top: (
+        x: math.div($node-size , 2),
+        y: 0em
+    ),
+    right: (
+        x: $node-size,
+        y: math.div($node-size, 2),
+    ),
+    bottom: (
+        x: math.div($node-size, 2),
+        y: $node-size,
+    ),
+    left: (
+        x: 0em,
+        y: math.div($node-size, 2)
+    )
+);
+
+@function get-connector-pos($n-id, $side) {
+    $n-pos: map.get($nodes-position, $n-id);
+    $generic-connector-offset: map.get($generic-connector-pos, $side);
+
+    @return (
+        x: map.get($n-pos, "x") + map.get($generic-connector-offset, "x"),
+        y: map.get($n-pos, "y") + map.get($generic-connector-offset, "y"),
+    )
+};
+
+@function get-graph-size() {
+    $max-x: 0;
+    $max-y: 0;
+
+    @each $_, $n1-pos in $nodes-position {
+        $x: map.get($n1-pos, "x");
+        $y: map.get($n1-pos, "y");
+
+        @if $x > $max-x {
+            $max-x: $x;
+        }
+        @if $y > $max-y {
+            $max-y: $y;
+        }
+    }
+
+    $map: (
+        x: $max-x + $node-size,
+        y: $max-y + $node-size,
+    );
+
+    @return $map;
+}
+
+@function get-link-data($node-one-id, $node-two-id) {
+
+}
+
+#graph-page {
+    .graphical-representation {
+        position: relative;
+
+        $graph-size: get-graph-size();
+        min-width: map.get($graph-size, "x");
+        min-height: map.get($graph-size, "y");
+    }
+
+    .node {
+        display: grid;
+        place-items: center;
+
+        position: absolute;
+
+        width: $node-size;
+        height: $node-size;
+
+        border: 1px solid white;
+        background-color: rgba(white, 10%);
+
+        .value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+    }
+
+    .link {
+        position: absolute;
+        left: 0;
+        top: -1em;
+
+        height: 1px;
+        min-width: 7em;
+        background-color: white;
+
+        transform-origin: left;
+    }
+
+    @each $n1-name, $n1-pos in $nodes-position {
+        #{"##{$n1-name}"} {
+            left: map.get($n1-pos, "x");
+            top: map.get($n1-pos, "y");
+
+            // looping another time over the same map for links between nodes
+            @each $n2-name, $n2-pos in $nodes-position {
+                #{"#link-to-#{$n2-name}"} {
+                    // first : find shortest branch length
+
+                    $length: 50em; // just a big number
+
+                    $saved-n1-connector: (x: -1em, y: -1em); // dummy default values
+                    $saved-y-difference: -1em; // same
+
+                    @each $n1-side in $sides {
+                        @each $n2-side in $sides {
+                            $n1-connector: get-connector-pos($n1-name, $n1-side);
+                            $n2-connector: get-connector-pos($n2-name, $n2-side);
+
+                            $x-difference: map.get($n1-connector, "x") - map.get($n2-connector, "x");
+                            $y-difference: map.get($n1-connector, "y") - map.get($n2-connector, "y");
+
+                            $this-length: math.hypot($x-difference, $y-difference);
+
+                            @if $this-length < $length {
+                                $length: $this-length;
+                                $saved-n1-connector: $n1-connector;
+                                $saved-y-difference: $y-difference;
+                            }
+                        }
+                    }
+
+                    // second : find the rotation angle through trigonometry
+                    $rotation: math.asin(math.div($saved-y-difference, $length)) * -1;
+
+
+                    // last : apply styles to the element
+                    width: $length;
+                    left: map.get($saved-n1-connector, "x") - map.get($n1-pos, "x");
+                    top: map.get($saved-n1-connector, "y") - map.get($n1-pos, "y");
+                    transform: rotate($rotation);
+                }
+            }
+        }
+
+    }
+}
