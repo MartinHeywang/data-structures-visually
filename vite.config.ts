@@ -25,14 +25,7 @@ export default defineConfig({
                         "stack",
                         "hash-map",
                         "tree",
-                        "graph",
-                        "hashing",
-                        "tries",
-                        "advance-graphs",
-                        "bit-manipulation",
-                        "segment-tree",
-                        "avl-tree",
-                        "b+-tree",
+                        "graph"
                     ].forEach(name => {
                         result[name] = path.resolve(__dirname, "src/pages", `${name}.html`);
                     });
