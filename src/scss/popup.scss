@@ -1,0 +1,89 @@
+[class*="popup-"] {
+    display: none;
+
+    position: fixed;
+    z-index: 2;
+    top: var(--top-corner);
+    left: var(--left-corner);
+
+    background-color: black;
+    padding: 1em;
+
+    width: min(80vw, 35ch);
+    // width: var(--left-corner);
+
+    .buttons {
+        display: flex;
+        gap: 0.5em;
+        margin-top: 1em;
+
+        .next,
+        .previous {
+            border: 0;
+            border-radius: 0;
+            padding: 0.5em 1.5em;
+
+            flex-basis: 100%;
+
+            font-weight: bold;
+
+            &:hover {
+                cursor: pointer;
+                filter: brightness(60%);
+            }
+
+            &:focus-visible {
+                outline: 2px solid white;
+                outline-offset: 2px;
+            }
+        }
+
+        .previous {
+            background-color: transparent;
+            color: white;
+        }
+    }
+
+    // the triangle of the popup
+    &::before {
+        content: "";
+
+        position: absolute;
+
+        border: 1em solid transparent;
+    }
+}
+
+.popup-top {
+    $ideal-translate-y: calc(-100% - 2em);
+    $min-translate-y: calc(var(--top-corner) * -1 + 2em);
+
+    transform: translateY(max($min-translate-y, $ideal-translate-y));
+
+    &::before {
+        top: 100%;
+        left: 0;
+
+        border-bottom: none;
+        border-top-color: black;
+    }
+}
+
+.popup-bottom {
+    $ideal-translate-y: calc(100% - 2em);
+    $max-translate-y: calc(100vh - var(--top-corner) - 100% - 2em);
+
+    transform: translateY($max-translate-y);
+
+    &::before {
+        bottom: 100%;
+        left: 0;
+
+        border-top: none;
+        border-bottom-color: black;
+    }
+}
+
+.popup--visible {
+    display: revert;
+}

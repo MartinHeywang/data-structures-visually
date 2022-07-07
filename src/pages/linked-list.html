@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <link rel="stylesheet" href="../scss/index.scss" />
+        <script src="../ts/popup-utils.ts" type="module" defer></script>
 
         <title>Linked List | Data Structures visually</title>
     </head>
@@ -18,16 +19,38 @@
                 <div class="item item-head">
                     <span class="value">1</span>
                     <div class="under-note">HEAD</div>
+
+                    <div class="popup-top" data-order="0">
+                        A linked list is sequence composed of multiple nodes, often represented like
+                        this.
+                    </div>
                 </div>
                 <div class="item">
                     <span class="value">2</span>
+
+                    
+                    <div class="popup-bottom" data-order="1">
+                        Unlike an array, all values in a linked list do not need to be stored linearly in
+                        memory.
+                    </div>
+                    <div class="popup-top" data-order="2">
+                        Each node in a linked list is composed of two things : the value of the node,
+                        here '2', and a pointer that leads to the next node.
+                    </div>
                 </div>
                 <div class="item"><span class="value">3</span></div>
                 <div class="item item-tail">
                     <span class="value">4</span>
                     <div class="under-note">TAIL</div>
+
+                    <div class="popup-top" data-order="3">
+                        We recognize the last element as such because his pointer does not point to
+                        anything (null). We call it the "tail".
+                    </div>
                 </div>
-                <div class="item item-null"><span class="value">null</span></div>
+                <div class="item item-null">
+                    <span class="value">null</span>
+                </div>
             </div>
         </div>
     </body>
