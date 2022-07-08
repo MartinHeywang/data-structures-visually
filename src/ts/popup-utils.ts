@@ -1,6 +1,15 @@
 import "../scss/popup.scss";
 
-const popups = Array.from(document.querySelectorAll<HTMLDivElement>("[class*='popup-']"));
+const graphicalRepresentationBox = document.querySelector<HTMLDivElement>(
+    ".graphical-representation-box"
+)!;
+if (!graphicalRepresentationBox) {
+    throw new Error("Can't use popup utils where there is no .graphical-representation-box :/");
+}
+
+const popups = Array.from(
+    graphicalRepresentationBox.querySelectorAll<HTMLDivElement>("[class*='popup-']")
+);
 
 /*
     WARNING: order != index !
@@ -57,11 +66,22 @@ function refresh() {
     visiblePopup.classList.add("popup--visible");
     visiblePopup.appendChild(buttons);
 
-    // here we're scrolling to view the parent element of the popup
-    // we can't call that method on the popup itself because it has a position of fixed
-    visiblePopup.parentElement!.scrollIntoView({ behavior: "smooth", inline: "start" });
+    const { parentX } = updatePopupPos();
 
-    updatePopupPos();
+    // trying to scroll the box so the popup is fully visible
+    // btw, can't use scrollIntoView() because the popup has a position of fixed
+
+    // @ts-ignore
+    const pageMargin = getComputedStyle(graphicalRepresentationBox).getPropertyValue("padding-left");
+    const pageMarginPixels = parseFloat(pageMargin); // the 'px' unit at the end of the string is no problem for parseFloat()
+
+    console.log("scrolling graphical-box");
+    console.log(`Parent X: ${parentX}px`);
+    console.log(`Margin: ${pageMarginPixels}px`)
+    console.log(`diff: ${parentX - pageMarginPixels}px`)
+
+    // the top value is kind of useless because in most cases it can't scroll vertically
+    graphicalRepresentationBox.scrollTo({ behavior: "smooth", left: parentX - pageMarginPixels });
 
     nextBtn.textContent = currentIndex === maxIndex ? "Close" : "Next";
     prevBtn.textContent = currentIndex === minIndex ? "Close" : "Previous";
@@ -73,12 +93,22 @@ function updatePopupPos() {
     const visiblePopup = getVisiblePopup();
 
     const rect = visiblePopup.parentElement!.getBoundingClientRect();
+    console.log(rect);
+
+    const x = rect.x + graphicalRepresentationBox!.scrollLeft;
+    const y = rect.y + graphicalRepresentationBox!.scrollTop; // should equal rect.y in fact
+
+    // here we're stilling giving to CSS the position of the popup relative to the viewport
+    // CSS use fixed positioning, and thus need viewport-relative coordinates.
     visiblePopup.style.setProperty("--left-corner", `${rect.x}px`);
     visiblePopup.style.setProperty("--top-corner", `${rect.y}px`);
+
+    // returned: relative to the graphicalRepresentationBox
+    return { parentX: x, parentY: y };
 }
 
-window.addEventListener("resize", updatePopupPos);
-document.querySelector(".graphical-representation-box")?.addEventListener("scroll", updatePopupPos);
+window.addEventListener("resize", refresh);
+graphicalRepresentationBox.addEventListener("scroll", updatePopupPos);
 refresh();
 
 export { refresh };

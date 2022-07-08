@@ -24,6 +24,8 @@ body.data-structure-page {
 }
 
 .graphical-representation-box {
+    @include util.page-margin();
+    
     overflow-x: auto;
     isolation: isolate;
     position: relative;
@@ -35,6 +37,7 @@ body.data-structure-page {
 
     padding-block: 2rem;
     padding-left: util.get-page-margin();
+
 
     .graphical-representation {
         padding-right: util.get-page-margin();
