@@ -6,9 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         
+        
 
         <title>Queue | Data Structures visually</title>
-      <link rel="stylesheet" href="/data-structures-visually/assets/index.5b7daf06.css">
+      <script type="module" crossorigin src="/data-structures-visually/assets/index.49f388f0.js"></script>
+      <script type="module" crossorigin src="/data-structures-visually/assets/popup-utils.b47c4410.js"></script>
+      <link rel="stylesheet" href="/data-structures-visually/assets/index.8ca4c8c9.css">
+      <link rel="stylesheet" href="/data-structures-visually/assets/popup-utils.1a243538.css">
     </head>
     <body class="data-structure-page" id="queue-page">
         <div class="container text">
@@ -19,21 +23,40 @@
                 <div class="fifo first-in">
                     <p>first in</p>
                     <div class="arrow"></div>
+
+                    <div class="popup-bottom" data-order="0">
+                        A queue is a special kind of sequence that can be sometimes implemented using a
+                        linked list.
+                    </div>
+                    <div class="popup-top" data-order="1">
+                        Its public API only allows certain operations : for example, you can only add
+                        elements at the end of the queue, and remove elements at the start of the queue.
+                    </div>
                 </div>
                 <div class="queue">
                     <div class="input-door"></div>
                     <div class="items">
-                        <div class="item"><span class="value">1</span></div>
+                        <div class="item"><span class="value">1</span>
+                            <div class="popup-top" data-order="3">Same thing : this element was the first to enter the queue and will be the first to exit it as well.</div>
+                        </div>
                         <div class="item"><span class="value">2</span></div>
                         <div class="item"><span class="value">3</span></div>
                         <div class="item"><span class="value">4</span></div>
-                        <div class="item"><span class="value">5</span></div>
+                        <div class="item"><span class="value">5</span>
+                            <div class="popup-top" data-order="2">
+                                This element entered the queue last, and will exit the queue last as well.
+                            </div>
+                        </div>
                     </div>
                     <div class="output-door"></div>
                 </div>
                 <div class="fifo first-out">
                     <p>first out</p>
                     <div class="arrow"></div>
+
+                    <div class="popup-bottom" data-order="4">
+                        This principle stands between the letters FIFO : First In, First Out.
+                    </div>
                 </div>
             </div>
         </div>

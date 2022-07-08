@@ -6,9 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         
+        
 
         <title>Stack | Data Structures visually</title>
-      <link rel="stylesheet" href="/data-structures-visually/assets/index.5b7daf06.css">
+      <script type="module" crossorigin src="/data-structures-visually/assets/index.49f388f0.js"></script>
+      <script type="module" crossorigin src="/data-structures-visually/assets/popup-utils.b47c4410.js"></script>
+      <link rel="stylesheet" href="/data-structures-visually/assets/index.8ca4c8c9.css">
+      <link rel="stylesheet" href="/data-structures-visually/assets/popup-utils.1a243538.css">
     </head>
     <body class="data-structure-page" id="stack-page">
         <div class="container text">
@@ -17,6 +21,10 @@
         <div class="graphical-representation-box">
             <div class="graphical-representation">
                 <div class="filo">
+                    <div class="popup-bottom" data-order="0">
+                        Much like a queue, a stack can be implemented using a linked list. The
+                        differences between those are the allowed operations.
+                    </div>
                     <div class="first-in">
                         <div class="arrow"></div>
                         <p>first in</p>
@@ -27,13 +35,23 @@
                     </div>
                 </div>
                 <div class="stack">
+                    <div class="popup-top" data-order="1">
+                        A stack uses the FILO principle : First In, Last Out. Elements that went in first
+                        will went out last.
+                    </div>
                     <div class="door"></div>
                     <div class="items">
                         <div class="item"><span class="value">1</span></div>
                         <div class="item"><span class="value">2</span></div>
                         <div class="item"><span class="value">3</span></div>
                         <div class="item"><span class="value">4</span></div>
-                        <div class="item"><span class="value">5</span></div>
+                        <div class="item">
+                            <span class="value">5</span>
+                            <div class="popup-bottom" data-order="2">
+                                This element was the last one to enter the stack and must exit before any
+                                other.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
