@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <link rel="stylesheet" href="../scss/index.scss" />
+        <script src="../ts/popup-utils.ts" type="module" defer></script>
 
         <title>Tree | Data Structures visually</title>
     </head>
@@ -15,6 +16,18 @@
         </div>
         <div class="graphical-representation-box">
             <div class="graphical-representation">
+                <div class="popup-top" data-order="0">
+                    A tree is a group of nodes in which each node can have multiple children nodes.
+                </div>
+                <div class="popup-bottom" data-order="1">
+                    Here, we are facing a binary tree, because each node can only have 0 to 2 nodes, but
+                    you could imagine trees with much more children than that.
+                </div>
+                <div class="popup-top" data-order="2">
+                    A tree is often useful when you want to create some kind of hierarchy, but you can
+                    also find it where you need to represent a recursive model (data that repeats itself
+                    inside of it), e.g parentheses inside a mathematical expression.
+                </div>
                 <div class="node tree-root">
                     <span class="value">10</span>
                     <div class="left node">
@@ -33,18 +46,12 @@
                             <div class="left node">
                                 <span class="value">-5</span>
                             </div>
-                            <div class="right node">
-                                <span class="value">6</span>
-                            </div>
                         </div>
                     </div>
                     <div class="right node">
                         <span class="value">18</span>
                         <div class="left node">
                             <span class="value">17</span>
-                            <div class="left node">
-                                <span class="value">&pi;</span>
-                            </div>
                             <div class="right node">
                                 <span class="value">19</span>
                             </div>
